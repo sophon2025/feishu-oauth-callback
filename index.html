@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞书授权回调</title>
+<style>
+body{font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#f5f5f5}
+.box{text-align:center;padding:40px;background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.loading{font-size:18px;color:#666}
+</style>
+</head>
+<body>
+<div class="box"><div class="loading">授权处理中...</div></div>
+<script>
+var s=new URLSearchParams(location.search);
+var c=s.get('code'),st=s.get('state');
+if(c){
+  try{if(window.FeishuAuthBridge)window.FeishuAuthBridge.receiveCode(c,st||'')}catch(e){}
+  setTimeout(function(){location.href='voicefeishu://oauth/callback?code='+encodeURIComponent(c)+'&state='+encodeURIComponent(st||'')},100);
+}else{document.querySelector('.loading').textContent='授权失败'}
+</script>
+</body>
+</html>
